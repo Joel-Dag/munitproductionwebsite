@@ -1,0 +1,6 @@
+{
+  "name": "Munit Production - Music Studio",
+  "description": "Modern, high-end music production studio website for Munit Production featuring live instrumentation, custom arrangement, mixing, mastering, gear rental, and an Ethiopian Kewti calendar booking system.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

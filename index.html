@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Munit Production - Music Studio</title>
+    <meta name="description" content="Modern, high-end music production studio website for Munit Production featuring live instrumentation, custom arrangement, mixing, mastering, gear rental, and an Ethiopian Kewti calendar booking system." />
+    <meta property="og:title" content="Munit Production - Music Studio" />
+    <meta property="og:description" content="Modern, high-end music production studio website for Munit Production featuring live instrumentation, custom arrangement, mixing, mastering, gear rental, and an Ethiopian Kewti calendar booking system." />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <script>
+      // Early fetch patch guard: prevent polyfills or scripts from throwing
+      // "TypeError: Cannot set property fetch of #<Window> which has only a getter"
+      (function() {
+        try {
+          var nativeFetch = window.fetch ? window.fetch.bind(window) : undefined;
+          var customFetch = nativeFetch;
+          Object.defineProperty(window, 'fetch', {
+            get: function() { return customFetch; },
+            set: function(fn) { customFetch = fn; },
+            configurable: true,
+            enumerable: true
+          });
+        } catch (e) {}
+      })();
+    </script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&family=Syne:wght@500;600;700;800&family=Noto+Sans+Ethiopic:wght@400;500;600;700&display=swap" rel="stylesheet">
+  </head>
+  <body class="bg-[#FDFBF7] text-[#1A1818] antialiased selection:bg-[#E0A96D]/30 selection:text-[#1A1818]">
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
