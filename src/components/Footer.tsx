@@ -11,7 +11,7 @@ export const Footer: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 pb-8 border-b border-stone-800">
           <div>
-            <StudioLogo />
+            <StudioLogo imgClassName="h-10 w-auto" />
             <p className="text-xs text-stone-400 mt-2 max-w-sm">
               Music arrangement, live music instrumentation, piano, bass, vocal harmonization, mixing, and mastering in Addis Ababa.
             </p>

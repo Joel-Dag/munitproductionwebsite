@@ -40,10 +40,10 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenBooking }) => {
         {/* Brand Logo */}
         <a
           href="#"
-          className="focus:outline-hidden"
+          className="focus:outline-hidden flex items-center"
           id="navbar-brand-link"
         >
-          <StudioLogo />
+          <StudioLogo imgClassName="h-10 md:h-11 w-auto" />
         </a>
 
         {/* Desktop Navigation Links */}

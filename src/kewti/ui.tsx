@@ -32,12 +32,16 @@ export const KewtiCalendar: React.FC<KewtiCalendarProps> = ({
   // Current active date representing view month
   const [viewDate, setViewDate] = useState<Kenat>(() => {
     try {
+      if (value && typeof (value as any).getEthiopian === 'function') {
+        return value;
+      }
       return value ? new Kenat(value) : new Kenat();
     } catch {
       return new Kenat();
     }
   });
   const [activePref, setActivePref] = useState<'ethiopian' | 'gregorian'>(calendarPref);
+  const [isMonthPickerOpen, setIsMonthPickerOpen] = useState(false);
 
   useEffect(() => {
     setActivePref(calendarPref);
@@ -46,7 +50,11 @@ export const KewtiCalendar: React.FC<KewtiCalendarProps> = ({
   useEffect(() => {
     if (value) {
       try {
-        setViewDate(new Kenat(value));
+        if (typeof (value as any).getEthiopian === 'function') {
+          setViewDate(value);
+        } else {
+          setViewDate(new Kenat(value));
+        }
       } catch {
         // fallback
       }
@@ -123,10 +131,10 @@ export const KewtiCalendar: React.FC<KewtiCalendarProps> = ({
     try {
       if (typeof viewDate.addMonths === 'function') {
         const prev = viewDate.addMonths(-1);
-        setViewDate(new Kenat(prev));
+        setViewDate(prev);
       }
-    } catch {
-      // fallback
+    } catch (err) {
+      console.error('Error navigating previous month:', err);
     }
   };
 
@@ -135,10 +143,36 @@ export const KewtiCalendar: React.FC<KewtiCalendarProps> = ({
     try {
       if (typeof viewDate.addMonths === 'function') {
         const next = viewDate.addMonths(1);
-        setViewDate(new Kenat(next));
+        setViewDate(next);
       }
+    } catch (err) {
+      console.error('Error navigating next month:', err);
+    }
+  };
+
+  const handleGoToday = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    try {
+      setViewDate(new Kenat());
     } catch {
       // fallback
+    }
+  };
+
+  const handleSelectSpecificMonth = (targetMonthIndex: number) => {
+    try {
+      if (activePref === 'ethiopian') {
+        const currentM = eth?.month || 1;
+        const diff = (targetMonthIndex + 1) - currentM;
+        if (diff !== 0 && typeof viewDate.addMonths === 'function') {
+          setViewDate(viewDate.addMonths(diff));
+        }
+      } else {
+        const targetDate = new Date(greg.year, targetMonthIndex, 1);
+        setViewDate(new Kenat(targetDate));
+      }
+    } catch (err) {
+      console.error('Error selecting specific month:', err);
     }
   };
 
@@ -254,22 +288,43 @@ export const KewtiCalendar: React.FC<KewtiCalendarProps> = ({
       {/* Header controls: Switcher & Nav */}
       <div className="flex items-center justify-between gap-2 border-b border-[#E0A96D]/20 pb-3 mb-3">
         <div>
-          <h4 className="font-serif text-lg font-bold tracking-tight text-[#1A1818] flex items-center gap-1.5">
+          <button
+            type="button"
+            onClick={() => setIsMonthPickerOpen(prev => !prev)}
+            className="group font-serif text-lg font-bold tracking-tight text-[#1A1818] flex items-center gap-1.5 hover:text-[#9C6D38] transition-colors text-left cursor-pointer"
+            title="Click to jump to any month"
+          >
             <span>{monthTitle}</span>
             <span className="text-xs font-sans font-medium px-2 py-0.5 rounded-full bg-[#E0A96D]/15 text-[#82531F]">
               {activePref === 'ethiopian' ? 'ዓ.ም' : 'G.C.'}
             </span>
-          </h4>
+            <span className="text-[10px] text-stone-400 group-hover:text-[#9C6D38] transition-transform">
+              {isMonthPickerOpen ? '▲' : '▼'}
+            </span>
+          </button>
           <p className="text-xs text-stone-500 font-sans tracking-wide mt-0.5">
             {secondaryMonthSubtitle}
           </p>
         </div>
 
         <div className="flex items-center gap-1.5">
+          {/* Today button */}
+          <button
+            type="button"
+            onClick={handleGoToday}
+            className="text-[11px] px-2 py-1 rounded-lg border border-stone-200 hover:border-[#D4A373] hover:bg-[#E0A96D]/10 text-stone-600 hover:text-[#82531F] font-medium transition-colors"
+            title="Go to Today"
+          >
+            {activePref === 'ethiopian' ? 'ዛሬ' : 'Today'}
+          </button>
+
           {/* Calendar Preference toggle */}
           <button
             type="button"
-            onClick={() => setActivePref(prev => prev === 'ethiopian' ? 'gregorian' : 'ethiopian')}
+            onClick={() => {
+              setActivePref(prev => prev === 'ethiopian' ? 'gregorian' : 'ethiopian');
+              setIsMonthPickerOpen(false);
+            }}
             className="text-xs px-2.5 py-1 rounded-lg border border-[#D4A373]/30 bg-white/80 hover:bg-[#E0A96D]/15 text-[#82531F] font-medium transition-colors flex items-center gap-1 shadow-2xs"
             title="Switch Ethiopian / Gregorian Calendar mode"
           >
@@ -280,21 +335,72 @@ export const KewtiCalendar: React.FC<KewtiCalendarProps> = ({
           <button
             type="button"
             onClick={handlePrevMonth}
-            className="p-1.5 rounded-lg border border-stone-200 hover:border-[#D4A373] hover:bg-[#E0A96D]/10 text-stone-700 hover:text-[#9C6D38] transition-colors"
+            className="p-1.5 rounded-lg border border-stone-200 hover:border-[#D4A373] hover:bg-[#E0A96D]/10 text-stone-700 hover:text-[#9C6D38] transition-colors cursor-pointer"
             aria-label="Previous Month"
+            title="Previous Month"
           >
             <ChevronLeft className="w-4 h-4" />
           </button>
           <button
             type="button"
             onClick={handleNextMonth}
-            className="p-1.5 rounded-lg border border-stone-200 hover:border-[#D4A373] hover:bg-[#E0A96D]/10 text-stone-700 hover:text-[#9C6D38] transition-colors"
+            className="p-1.5 rounded-lg border border-stone-200 hover:border-[#D4A373] hover:bg-[#E0A96D]/10 text-stone-700 hover:text-[#9C6D38] transition-colors cursor-pointer"
             aria-label="Next Month"
+            title="Next Month"
           >
             <ChevronRight className="w-4 h-4" />
           </button>
         </div>
       </div>
+
+      {/* Quick Month Picker Dropdown */}
+      {isMonthPickerOpen && (
+        <div className="mb-3 p-2.5 rounded-xl bg-white border border-[#E0A96D]/30 shadow-md">
+          <div className="flex items-center justify-between pb-1.5 mb-2 border-b border-stone-100 text-xs font-semibold text-stone-700">
+            <span>{activePref === 'ethiopian' ? 'ወር ይምረጡ (Select Month)' : 'Select Month'}</span>
+            <button
+              type="button"
+              onClick={() => setIsMonthPickerOpen(false)}
+              className="text-stone-400 hover:text-stone-600 text-[11px]"
+            >
+              ✕
+            </button>
+          </div>
+          <div className="grid grid-cols-4 sm:grid-cols-4 gap-1.5 text-xs">
+            {(activePref === 'ethiopian'
+              ? (monthNames?.amharic || [
+                  'መስከረም', 'ጥቅምት', 'ህዳር', 'ታህሳስ', 'ጥር', 'የካቲት',
+                  'መጋቢት', 'ሚያዝያ', 'ግንቦት', 'ሰኔ', 'ሀምሌ', 'ነሐሴ', 'ጳጉሜ'
+                ])
+              : (monthNames?.gregorian || [
+                  'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+                  'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
+                ])
+            ).map((mName, idx) => {
+              const isCurrent = activePref === 'ethiopian'
+                ? eth?.month === idx + 1
+                : greg?.month === idx + 1;
+              return (
+                <button
+                  key={idx}
+                  type="button"
+                  onClick={() => {
+                    handleSelectSpecificMonth(idx);
+                    setIsMonthPickerOpen(false);
+                  }}
+                  className={`py-1.5 px-1 text-center rounded-lg font-medium text-xs transition-colors truncate ${
+                    isCurrent
+                      ? 'bg-[#1A1818] text-[#E0A96D] font-bold shadow-2xs'
+                      : 'bg-stone-50 hover:bg-[#E0A96D]/15 text-stone-700'
+                  }`}
+                >
+                  {mName}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      )}
 
       {/* Weekday headers */}
       <div className="grid grid-cols-7 gap-1 text-center mb-1.5">
