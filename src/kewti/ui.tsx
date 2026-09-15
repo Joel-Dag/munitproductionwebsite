@@ -32,10 +32,7 @@ export const KewtiCalendar: React.FC<KewtiCalendarProps> = ({
   // Current active date representing view month
   const [viewDate, setViewDate] = useState<Kenat>(() => {
     try {
-      if (value && typeof (value as any).getEthiopian === 'function') {
-        return value;
-      }
-      return value ? new Kenat(value) : new Kenat();
+      return value ?? new Kenat();
     } catch {
       return new Kenat();
     }
@@ -50,11 +47,7 @@ export const KewtiCalendar: React.FC<KewtiCalendarProps> = ({
   useEffect(() => {
     if (value) {
       try {
-        if (typeof (value as any).getEthiopian === 'function') {
-          setViewDate(value);
-        } else {
-          setViewDate(new Kenat(value));
-        }
+        setViewDate(value);
       } catch {
         // fallback
       }

@@ -16,7 +16,7 @@ export const StudioLogo: React.FC<StudioLogoProps> = ({
     <div className={`flex items-center gap-2.5 ${className}`}>
       {!imgFailed ? (
         <img
-          src="/assets/logo.svg"
+          src="/assets/logo.png"
           alt="Munit Production Logo"
           onError={() => setImgFailed(true)}
           className={`object-contain ${imgClassName}`}
