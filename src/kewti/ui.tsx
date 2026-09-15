@@ -275,40 +275,63 @@ export const KewtiCalendar: React.FC<KewtiCalendarProps> = ({
 
   return (
     <div
-      className={`rounded-2xl border border-[#D4A373]/30 bg-[#FDFBF7] p-4 text-[#1A1818] shadow-sm select-none transition-all duration-300 ${className}`}
+      className={`rounded-2xl border border-[#D4A373]/30 bg-[#FDFBF7] p-3 sm:p-4 text-[#1A1818] shadow-sm select-none transition-all duration-300 w-full overflow-hidden ${className}`}
       style={style}
     >
-      {/* Header controls: Switcher & Nav */}
-      <div className="flex items-center justify-between gap-2 border-b border-[#E0A96D]/20 pb-3 mb-3">
-        <div>
-          <button
-            type="button"
-            onClick={() => setIsMonthPickerOpen(prev => !prev)}
-            className="group font-serif text-lg font-bold tracking-tight text-[#1A1818] flex items-center gap-1.5 hover:text-[#9C6D38] transition-colors text-left cursor-pointer"
-            title="Click to jump to any month"
-          >
-            <span>{monthTitle}</span>
-            <span className="text-xs font-sans font-medium px-2 py-0.5 rounded-full bg-[#E0A96D]/15 text-[#82531F]">
-              {activePref === 'ethiopian' ? 'ዓ.ም' : 'G.C.'}
-            </span>
-            <span className="text-[10px] text-stone-400 group-hover:text-[#9C6D38] transition-transform">
-              {isMonthPickerOpen ? '▲' : '▼'}
-            </span>
-          </button>
-          <p className="text-xs text-stone-500 font-sans tracking-wide mt-0.5">
-            {secondaryMonthSubtitle}
-          </p>
+      {/* Header controls: Switcher & Nav (Mobile-optimized flex layout) */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 border-b border-[#E0A96D]/20 pb-3 mb-3">
+        <div className="flex items-center justify-between sm:justify-start gap-2">
+          <div>
+            <button
+              type="button"
+              onClick={() => setIsMonthPickerOpen(prev => !prev)}
+              className="group font-serif text-base sm:text-lg font-bold tracking-tight text-[#1A1818] flex items-center gap-1.5 hover:text-[#9C6D38] transition-colors text-left cursor-pointer"
+              title="Click to jump to any month"
+            >
+              <span>{monthTitle}</span>
+              <span className="text-[10px] sm:text-xs font-sans font-medium px-1.5 sm:px-2 py-0.5 rounded-full bg-[#E0A96D]/15 text-[#82531F]">
+                {activePref === 'ethiopian' ? 'ዓ.ም' : 'G.C.'}
+              </span>
+              <span className="text-[9px] sm:text-[10px] text-stone-400 group-hover:text-[#9C6D38] transition-transform">
+                {isMonthPickerOpen ? '▲' : '▼'}
+              </span>
+            </button>
+            <p className="text-[11px] sm:text-xs text-stone-500 font-sans tracking-wide mt-0.5">
+              {secondaryMonthSubtitle}
+            </p>
+          </div>
+
+          {/* Quick month switcher for small mobile screens right next to title */}
+          <div className="flex sm:hidden items-center gap-1">
+            <button
+              type="button"
+              onClick={handlePrevMonth}
+              className="p-1.5 rounded-lg border border-stone-200 bg-white hover:border-[#D4A373] text-stone-700 active:bg-[#E0A96D]/20"
+              aria-label="Previous Month"
+            >
+              <ChevronLeft className="w-4 h-4" />
+            </button>
+            <button
+              type="button"
+              onClick={handleNextMonth}
+              className="p-1.5 rounded-lg border border-stone-200 bg-white hover:border-[#D4A373] text-stone-700 active:bg-[#E0A96D]/20"
+              aria-label="Next Month"
+            >
+              <ChevronRight className="w-4 h-4" />
+            </button>
+          </div>
         </div>
 
-        <div className="flex items-center gap-1.5">
+        {/* Right Nav buttons */}
+        <div className="flex items-center justify-between sm:justify-end gap-1.5">
           {/* Today button */}
           <button
             type="button"
             onClick={handleGoToday}
-            className="text-[11px] px-2 py-1 rounded-lg border border-stone-200 hover:border-[#D4A373] hover:bg-[#E0A96D]/10 text-stone-600 hover:text-[#82531F] font-medium transition-colors"
+            className="text-[11px] px-2.5 py-1 rounded-lg border border-stone-200 bg-white/80 hover:border-[#D4A373] hover:bg-[#E0A96D]/10 text-stone-600 hover:text-[#82531F] font-medium transition-colors cursor-pointer"
             title="Go to Today"
           >
-            {activePref === 'ethiopian' ? 'ዛሬ' : 'Today'}
+            {activePref === 'ethiopian' ? 'ዛሬ (Today)' : 'Today'}
           </button>
 
           {/* Calendar Preference toggle */}
@@ -318,31 +341,34 @@ export const KewtiCalendar: React.FC<KewtiCalendarProps> = ({
               setActivePref(prev => prev === 'ethiopian' ? 'gregorian' : 'ethiopian');
               setIsMonthPickerOpen(false);
             }}
-            className="text-xs px-2.5 py-1 rounded-lg border border-[#D4A373]/30 bg-white/80 hover:bg-[#E0A96D]/15 text-[#82531F] font-medium transition-colors flex items-center gap-1 shadow-2xs"
+            className="text-[11px] sm:text-xs px-2.5 py-1 rounded-lg border border-[#D4A373]/30 bg-white/90 hover:bg-[#E0A96D]/15 text-[#82531F] font-medium transition-colors flex items-center gap-1 shadow-2xs cursor-pointer"
             title="Switch Ethiopian / Gregorian Calendar mode"
           >
             <Globe className="w-3 h-3 text-[#D4A373]" />
             <span>{activePref === 'ethiopian' ? 'ኢትዮጵያ' : 'Gregorian'}</span>
           </button>
 
-          <button
-            type="button"
-            onClick={handlePrevMonth}
-            className="p-1.5 rounded-lg border border-stone-200 hover:border-[#D4A373] hover:bg-[#E0A96D]/10 text-stone-700 hover:text-[#9C6D38] transition-colors cursor-pointer"
-            aria-label="Previous Month"
-            title="Previous Month"
-          >
-            <ChevronLeft className="w-4 h-4" />
-          </button>
-          <button
-            type="button"
-            onClick={handleNextMonth}
-            className="p-1.5 rounded-lg border border-stone-200 hover:border-[#D4A373] hover:bg-[#E0A96D]/10 text-stone-700 hover:text-[#9C6D38] transition-colors cursor-pointer"
-            aria-label="Next Month"
-            title="Next Month"
-          >
-            <ChevronRight className="w-4 h-4" />
-          </button>
+          {/* Desktop month navigation arrows */}
+          <div className="hidden sm:flex items-center gap-1">
+            <button
+              type="button"
+              onClick={handlePrevMonth}
+              className="p-1.5 rounded-lg border border-stone-200 hover:border-[#D4A373] hover:bg-[#E0A96D]/10 text-stone-700 hover:text-[#9C6D38] transition-colors cursor-pointer"
+              aria-label="Previous Month"
+              title="Previous Month"
+            >
+              <ChevronLeft className="w-4 h-4" />
+            </button>
+            <button
+              type="button"
+              onClick={handleNextMonth}
+              className="p-1.5 rounded-lg border border-stone-200 hover:border-[#D4A373] hover:bg-[#E0A96D]/10 text-stone-700 hover:text-[#9C6D38] transition-colors cursor-pointer"
+              aria-label="Next Month"
+              title="Next Month"
+            >
+              <ChevronRight className="w-4 h-4" />
+            </button>
+          </div>
         </div>
       </div>
 
@@ -396,19 +422,19 @@ export const KewtiCalendar: React.FC<KewtiCalendarProps> = ({
       )}
 
       {/* Weekday headers */}
-      <div className="grid grid-cols-7 gap-1 text-center mb-1.5">
+      <div className="grid grid-cols-7 gap-0.5 sm:gap-1 text-center mb-1.5">
         {(activePref === 'ethiopian' ? AMHARIC_WEEKDAYS : GREGORIAN_WEEKDAYS).map((day, idx) => (
-          <div key={idx} className="text-[11px] font-semibold text-stone-500 py-1">
+          <div key={idx} className="text-[10px] sm:text-[11px] font-semibold text-stone-500 py-1">
             {day}
           </div>
         ))}
       </div>
 
       {/* Days grid */}
-      <div className="grid grid-cols-7 gap-1">
+      <div className="grid grid-cols-7 gap-0.5 sm:gap-1">
         {/* Leading empty slots */}
         {Array.from({ length: startDayOffset }).map((_, i) => (
-          <div key={`empty-${i}`} className="h-10 w-full rounded-lg opacity-0 pointer-events-none" />
+          <div key={`empty-${i}`} className="h-9 sm:h-10 w-full rounded-lg opacity-0 pointer-events-none" />
         ))}
 
         {daysInMonth.map((dayItem: any, idx: number) => {
@@ -433,7 +459,7 @@ export const KewtiCalendar: React.FC<KewtiCalendarProps> = ({
               whileHover={showAnimations ? { scale: 1.08, y: -1 } : undefined}
               whileTap={showAnimations ? { scale: 0.95 } : undefined}
               onClick={() => handleSelectDay(dayItem)}
-              className={`relative h-10 w-full rounded-xl flex flex-col items-center justify-center text-xs transition-all duration-150 group cursor-pointer ${
+              className={`relative h-9 sm:h-10 w-full rounded-lg sm:rounded-xl flex flex-col items-center justify-center transition-all duration-150 group cursor-pointer ${
                 selected
                   ? 'bg-gradient-to-br from-[#E0A96D] to-[#B87A38] text-white shadow-md font-semibold ring-2 ring-[#E0A96D]/40'
                   : today
@@ -446,17 +472,17 @@ export const KewtiCalendar: React.FC<KewtiCalendarProps> = ({
                   : undefined
               }
             >
-              <span className="text-xs leading-none font-medium">
+              <span className="text-[11px] sm:text-xs leading-none font-medium">
                 {mainNum}
               </span>
-              <span className={`text-[9px] leading-none mt-0.5 opacity-60 ${selected ? 'text-amber-100' : 'text-stone-400'}`}>
+              <span className={`text-[8px] sm:text-[9px] leading-none mt-0.5 opacity-60 ${selected ? 'text-amber-100' : 'text-stone-400'}`}>
                 {subNum}
               </span>
 
               {/* Holiday dot indicator */}
               {showHolidays && holidayMatch && (
                 <span
-                  className={`absolute top-1 right-1 w-1.5 h-1.5 rounded-full ${
+                  className={`absolute top-0.5 right-0.5 sm:top-1 sm:right-1 w-1 sm:w-1.5 h-1 sm:h-1.5 rounded-full ${
                     selected ? 'bg-white' : 'bg-[#D4A373]'
                   }`}
                 />

@@ -205,15 +205,15 @@ Munit Production Studio Booking`;
   ];
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#1A1818]/60 backdrop-blur-xs">
-      <div className="w-full max-w-2xl bg-[#FDFBF7] rounded-2xl shadow-xl border border-[#D4A373]/30 overflow-hidden flex flex-col max-h-[90vh]">
+    <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 bg-[#1A1818]/65 backdrop-blur-xs">
+      <div className="w-full sm:max-w-2xl bg-[#FDFBF7] rounded-t-3xl sm:rounded-2xl shadow-2xl border border-[#D4A373]/30 overflow-hidden flex flex-col max-h-[92vh] sm:max-h-[90vh]">
         {/* Top Header without any settings button */}
-        <div className="px-6 py-3.5 bg-[#1A1818] text-white flex items-center justify-between border-b border-stone-800 shrink-0">
+        <div className="px-4 sm:px-6 py-3 sm:py-3.5 bg-[#1A1818] text-white flex items-center justify-between border-b border-stone-800 shrink-0">
           <div>
-            <h3 className="font-serif text-base sm:text-lg font-bold flex items-center gap-2">
+            <h3 className="font-serif text-sm sm:text-lg font-bold flex items-center gap-2">
               <span>Book Session &bull; Munit Production</span>
             </h3>
-            <p className="text-[11px] text-[#E0A96D] font-mono flex items-center gap-1.5">
+            <p className="text-[10px] sm:text-[11px] text-[#E0A96D] font-mono flex items-center gap-1.5">
               <span>Direct Studio Booking with:</span>
               <strong className="text-white">@{config.instagramUsername}</strong>
             </p>
@@ -231,13 +231,13 @@ Munit Production Studio Booking`;
 
         {/* Step Indicator */}
         {!isSubmitted && (
-          <div className="bg-[#FAF5EC] px-6 py-2.5 border-b border-stone-200 shrink-0">
+          <div className="bg-[#FAF5EC] px-3 sm:px-6 py-2 sm:py-2.5 border-b border-stone-200 shrink-0">
             <div className="flex items-center justify-between max-w-md mx-auto">
               {steps.map((s, idx) => (
                 <React.Fragment key={s.num}>
-                  <div className="flex items-center gap-1.5">
+                  <div className="flex items-center gap-1 sm:gap-1.5">
                     <div
-                      className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold ${
+                      className={`w-5 h-5 sm:w-6 sm:h-6 rounded-full flex items-center justify-center text-[10px] sm:text-xs font-bold ${
                         currentStep === s.num
                           ? 'bg-[#1A1818] text-[#E0A96D]'
                           : currentStep > s.num
@@ -245,15 +245,15 @@ Munit Production Studio Booking`;
                           : 'bg-stone-200 text-stone-500'
                       }`}
                     >
-                      {currentStep > s.num ? <Check className="w-3 h-3 stroke-[3]" /> : s.num}
+                      {currentStep > s.num ? <Check className="w-2.5 h-2.5 sm:w-3 sm:h-3 stroke-[3]" /> : s.num}
                     </div>
-                    <span className="text-xs font-medium text-stone-600 hidden sm:block">
+                    <span className="text-[11px] sm:text-xs font-medium text-stone-600 hidden xs:inline sm:inline">
                       {s.label}
                     </span>
                   </div>
                   {idx < steps.length - 1 && (
                     <div
-                      className={`flex-1 h-0.5 mx-2 ${
+                      className={`flex-1 h-0.5 mx-1 sm:mx-2 ${
                         currentStep > idx + 1 ? 'bg-[#D4A373]' : 'bg-stone-200'
                       }`}
                     />
@@ -265,7 +265,7 @@ Munit Production Studio Booking`;
         )}
 
         {/* Modal Body */}
-        <div className="p-6 overflow-y-auto flex-1 text-[#1A1818]">
+        <div className="p-3.5 sm:p-6 overflow-y-auto flex-1 text-[#1A1818]">
           <AnimatePresence mode="wait">
             
             {/* Confirmation & Paste Guide Screen */}
@@ -425,19 +425,19 @@ Munit Production Studio Booking`;
 
             {/* STEP 2: Date & Time Slot */}
             {!isSubmitted && currentStep === 2 && (
-              <div className="space-y-4">
-                <div className="flex items-center justify-between">
+              <div className="space-y-3.5 sm:space-y-4">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                   <div>
-                    <h4 className="font-serif text-lg font-bold">
+                    <h4 className="font-serif text-base sm:text-lg font-bold">
                       Step 2: Pick Date & Time Slot
                     </h4>
-                    <p className="text-xs text-stone-500">
+                    <p className="text-[11px] sm:text-xs text-stone-500">
                       Select date on the Ethiopian Kewti calendar.
                     </p>
                   </div>
 
                   {/* Calendar Toggle */}
-                  <div className="flex items-center gap-1 bg-[#FAF5EC] p-1 rounded-lg border border-stone-200 text-xs">
+                  <div className="inline-flex items-center gap-1 bg-[#FAF5EC] p-1 rounded-lg border border-stone-200 text-xs self-start sm:self-auto">
                     <button
                       type="button"
                       onClick={() => setCalPref('ethiopian')}
@@ -467,9 +467,9 @@ Munit Production Studio Booking`;
                   className="w-full bg-[#FAF5EC] border-stone-200"
                 />
 
-                <div className="p-2.5 rounded-lg bg-white border border-stone-200 text-xs flex justify-between">
-                  <span className="text-stone-500">Selected:</span>
-                  <span className="font-bold text-[#82531F]">
+                <div className="p-2.5 rounded-lg bg-white border border-stone-200 text-xs flex flex-col sm:flex-row sm:justify-between gap-1">
+                  <span className="text-stone-500">Selected Date:</span>
+                  <span className="font-bold text-[#82531F] text-xs sm:text-sm">
                     {dates.eth} &bull; {dates.greg}
                   </span>
                 </div>
@@ -479,22 +479,24 @@ Munit Production Studio Booking`;
                   <label className="text-xs font-semibold text-stone-700 block">
                     Time Slot
                   </label>
-                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
                     {TIME_SLOTS.map((slot) => {
                       const isSelected = formData.timeSlot === slot.id;
                       return (
                         <div
                           key={slot.id}
                           onClick={() => setFormData(prev => ({ ...prev, timeSlot: slot.id }))}
-                          className={`p-2.5 rounded-lg border cursor-pointer text-xs ${
+                          className={`p-2.5 rounded-xl border cursor-pointer text-xs transition-all ${
                             isSelected
-                              ? 'border-[#D4A373] bg-[#FAF5EC] font-semibold'
+                              ? 'border-[#D4A373] bg-[#FAF5EC] font-semibold ring-1 ring-[#D4A373]'
                               : 'border-stone-200 bg-white hover:border-stone-300'
                           }`}
                         >
-                          <div className="text-stone-900">{slot.title}</div>
-                          <div className="text-[#82531F] font-bold">{slot.ethiopianTime}</div>
-                          <div className="text-stone-400 text-[10px]">{slot.westernTime}</div>
+                          <div className="flex sm:block justify-between items-baseline">
+                            <div className="text-stone-900 font-medium">{slot.title}</div>
+                            <div className="text-[#82531F] font-bold">{slot.ethiopianTime}</div>
+                          </div>
+                          <div className="text-stone-400 text-[10px] mt-0.5">{slot.westernTime}</div>
                         </div>
                       );
                     })}
@@ -744,12 +746,12 @@ Munit Production Studio Booking`;
 
         {/* Footer Navigation */}
         {!isSubmitted && (
-          <div className="px-6 py-3 bg-[#FAF5EC] border-t border-stone-200 flex items-center justify-between shrink-0">
+          <div className="px-4 sm:px-6 py-3 bg-[#FAF5EC] border-t border-stone-200 flex items-center justify-between shrink-0 gap-2">
             {currentStep > 1 ? (
               <button
                 type="button"
                 onClick={() => setCurrentStep(prev => prev - 1)}
-                className="px-3.5 py-2 rounded-lg border border-stone-300 bg-white text-stone-700 text-xs font-medium cursor-pointer hover:bg-stone-50"
+                className="px-3 sm:px-3.5 py-2 rounded-lg border border-stone-300 bg-white text-stone-700 text-xs font-medium cursor-pointer hover:bg-stone-50 transition-colors"
               >
                 Back
               </button>
@@ -761,7 +763,7 @@ Munit Production Studio Booking`;
               <button
                 type="button"
                 onClick={() => setCurrentStep(prev => prev + 1)}
-                className="px-5 py-2 rounded-lg bg-[#1A1818] text-white text-xs font-medium cursor-pointer hover:bg-[#322A23]"
+                className="px-4 sm:px-5 py-2 rounded-lg bg-[#1A1818] text-white text-xs font-medium cursor-pointer hover:bg-[#322A23] transition-colors"
               >
                 Continue
               </button>
@@ -770,10 +772,10 @@ Munit Production Studio Booking`;
                 type="button"
                 onClick={handleSubmitBooking}
                 disabled={!formData.clientName.trim() || formData.clientPhone.trim().length < 6}
-                className="px-5 py-2.5 rounded-lg bg-gradient-to-r from-[#211A15] to-[#1A1818] text-[#E0A96D] text-xs font-bold flex items-center gap-2 disabled:opacity-50 cursor-pointer shadow-md border border-[#E0A96D]/30 hover:opacity-95"
+                className="px-3.5 sm:px-5 py-2 sm:py-2.5 rounded-lg bg-gradient-to-r from-[#211A15] to-[#1A1818] text-[#E0A96D] text-xs font-bold flex items-center gap-1.5 sm:gap-2 disabled:opacity-50 cursor-pointer shadow-md border border-[#E0A96D]/30 hover:opacity-95 text-center transition-all"
               >
-                <Send className="w-3.5 h-3.5 text-[#E0A96D]" />
-                <span>Copy &amp; Open Instagram DM</span>
+                <Send className="w-3.5 h-3.5 text-[#E0A96D] shrink-0" />
+                <span className="truncate">Copy &amp; Open Instagram</span>
               </button>
             )}
           </div>

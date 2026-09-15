@@ -4,7 +4,7 @@ import { motion } from 'motion/react';
 // Floating 3D animated musical instruments with perspective, realistic shadows, and multi-axis rotation
 export const FloatingInstruments: React.FC = () => {
   return (
-    <div className="pointer-events-none fixed inset-0 overflow-hidden z-0 [perspective:1200px]">
+    <div className="pointer-events-none fixed inset-0 overflow-hidden z-0 [perspective:1200px] hidden md:block">
       
       {/* 1. 3D Floating Grand Piano Harp & Keys */}
       <motion.div

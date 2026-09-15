@@ -12,7 +12,7 @@ export const FloatingContact: React.FC<FloatingContactProps> = ({ onOpenBooking 
   const config = getStudioConfig();
 
   return (
-    <div className="fixed bottom-5 right-5 z-40" id="floating-contact-container">
+    <div className="fixed bottom-4 right-4 sm:bottom-5 sm:right-5 z-40" id="floating-contact-container">
       <AnimatePresence>
         {isOpen && (
           <motion.div
@@ -20,7 +20,7 @@ export const FloatingContact: React.FC<FloatingContactProps> = ({ onOpenBooking 
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 15, scale: 0.95 }}
             transition={{ duration: 0.18 }}
-            className="mb-3 w-72 rounded-3xl bg-[#FDFBF7] border-2 border-[#D4A373]/40 shadow-2xl p-4 text-[#1A1818]"
+            className="mb-3 w-[calc(100vw-2rem)] max-w-xs sm:w-72 rounded-3xl bg-[#FDFBF7] border-2 border-[#D4A373]/40 shadow-2xl p-4 text-[#1A1818]"
           >
             <div className="flex items-center justify-between pb-3 border-b border-[#E0A96D]/20">
               <div className="flex items-center gap-2">
